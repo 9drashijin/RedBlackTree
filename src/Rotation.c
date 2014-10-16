@@ -9,10 +9,6 @@ void rightRotate(Node **nodePtr){
   root->right = *nodePtr;
   (*nodePtr)->left = tempRoot;  
   *nodePtr = root;
-  
-  // printf("nodeptr %d\n",*nodePtr);
-  // printf("nodeptrright %d\n",(*nodePtr)->right);
-  // printf("nodeptrleft %d\n",(*nodePtr)->left);
 }
 void leftRotate(Node **nodePtr){
   Node *root = (* nodePtr)->right;

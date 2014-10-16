@@ -1,21 +1,10 @@
 #include "unity.h"
 #include "Rotation.h"
 #include "Node.h"
+#include "InitNode.h"
 #include <stdio.h>
 
 Node node1, node5, node10, node15, node20, node25, node30, node35, node40, node45;
-
-void setNode(Node *target, Node *left, Node *right, char color){
-	target->left = left;
-	target->right = right;
-	target->color = color;
-}
-void resetNode(Node *target,int data){
-	target->left = NULL;
-	target->right = NULL;
-	target->color = 'b';
-	target->data = data;
-}
 
 void setUp(void){
 	resetNode(&node1, 1);
@@ -586,9 +575,3 @@ void xtest_chgRootbyRef(){
 	changeRootByRef(&root , &node5);
 	printf("root node is %d with address %x\n",root->data,root);
 }
-
-
-
-
-
-
