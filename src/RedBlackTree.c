@@ -1,6 +1,10 @@
+#include <stdio.h>
+#include "Node.h"
+#include "InitNode.h"
+#include "Rotation.h"
+#include "CustomAssertion.h"
 #include "RedBlackTree.h"
 #include "ErrorCode.h"
-#include <stdio.h>
 #include <CException.h>
 
 void addRedBlackTree(Node **rootPtr, Node *newNode){
@@ -41,14 +45,14 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
     if((root->right->color == 'r') && (root->right->right->color == 'r')){
       printf("left");
       leftRotate(rootPtr);
-      (* rootPtr)->right->color = 'r';
+      (* rootPtr)->left->color = 'r';
     }
   }
   else if(root->right != NULL && root->right->left != NULL){
-  if((root->left->color == 'r') && (root->left->right->color == 'r')){
-      printf("leftRight");
-      leftRightRotate(rootPtr);
-      (* rootPtr)->right->color = 'r';
+  if((root->right->color == 'r') && (root->right->left->color == 'r')){
+      printf("rightLeft");
+      rightLeftRotate(rootPtr);
+      (* rootPtr)->left->color = 'r';
     }
   }
   else ;;

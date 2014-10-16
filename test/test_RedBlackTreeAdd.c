@@ -1,8 +1,8 @@
 #include "unity.h"
-#include "RedBlackTree.h"
-#include "Rotation.h"
 #include "Node.h"
+#include "Rotation.h"
 #include "InitNode.h"
+#include "RedBlackTree.h"
 #include "CustomAssertion.h"
 #include "ErrorCode.h"
 #include <stdio.h>
@@ -150,11 +150,11 @@ void test_addRedBlackTree_add_10_to_tree_should_left_right_rotate(void){
  *      root           root
  *       |    add 20r   |
  *       V   ------->   V
- *      15b            10b add only
+ *      15b            15b add only
  *      /             /  \
  *    5r            5r   20r
  */ 
-void test_addRedBlackTree_add_10_to_tree_should_add_only(void){
+void test_addRedBlackTree_add_20_to_tree_should_add_only(void){
   setNode(&node20,NULL,NULL,'r');
   setNode(&node5,NULL,NULL,'r');
   setNode(&node15,&node5,NULL,'b');
@@ -166,4 +166,67 @@ void test_addRedBlackTree_add_10_to_tree_should_add_only(void){
   TEST_ASSERT_EQUAL_NODE(&node5, &node20, 'b', &node15);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20);
+}
+/**
+ *      root           root
+ *       |    add 10r   |
+ *       V   ------->   V
+ *      15b            15b add only
+ *         \          /   \
+ *         20r      10r   20r
+ */ 
+void test_addRedBlackTree_add_10_to_tree_should_add_only(void){
+  setNode(&node20,NULL,NULL,'r');
+  setNode(&node10,NULL,NULL,'r');
+  setNode(&node15,NULL,&node20,'b');
+	Node *root = &node15;
+
+  addRedBlackTree(&root, &node10);
+  TEST_ASSERT_EQUAL_PTR(root, &node15);
+  
+  TEST_ASSERT_EQUAL_NODE(&node10, &node20, 'b', &node15);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20);
+}
+/**
+ *      root           root
+ *       |    add 15r   |
+ *       V   ------->   V
+ *      10b            15b right Left Rotated
+ *         \          /   \
+ *         20r      10r   20r
+ */
+void test_addRedBlackTree_add_10_to_tree_should_right_left_rotate(void){
+  setNode(&node15,NULL,NULL,'r');
+  setNode(&node20,NULL,NULL,'r');
+  setNode(&node10,NULL,&node20,'b');
+	Node *root = &node10;
+
+  addRedBlackTree(&root, &node15);
+  TEST_ASSERT_EQUAL_PTR(root, &node15);
+  
+  TEST_ASSERT_EQUAL_NODE(&node10, &node20, 'b', &node15);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20);
+}
+/**
+ *      root           root
+ *       |    add 30r   |
+ *       V   ------->   V
+ *      10b            20b left Rotated
+ *         \          /   \
+ *         20r      10r   30r
+ */
+void test_addRedBlackTree_add_10_to_tree_should_left_rotate(void){
+  setNode(&node30,NULL,NULL,'r');
+  setNode(&node20,NULL,NULL,'r');
+  setNode(&node10,NULL,&node20,'b');
+	Node *root = &node10;
+
+  addRedBlackTree(&root, &node30);
+  TEST_ASSERT_EQUAL_PTR(root, &node20);
+  
+  TEST_ASSERT_EQUAL_NODE(&node10, &node30, 'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node30);
 }
