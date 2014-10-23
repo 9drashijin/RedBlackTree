@@ -35,17 +35,17 @@ void test_rightRotate_with_3_elements(void){
 	setNode(&node5,&node1,NULL,'b');
 	setNode(&node10,&node5,NULL,'b');
 	Node *root = &node10;
-	
+
   // printf("1 %d\n",&node1);
-  // printf("5 %d\n",&node5);                                                                   
-  // printf("10 %d\n=============\n",&node10);         
-  
+  // printf("5 %d\n",&node5);
+  // printf("10 %d\n=============\n",&node10);
+
 	rightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node5);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,&node10);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
@@ -64,15 +64,15 @@ void test_rightRotate_with_4_elements(void){
 	setNode(&node5,&node1,NULL,'b');
 	setNode(&node10,&node5,&node15,'b');
 	Node *root = &node10;
-	
+
 	rightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node5);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,&node10);
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node15);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -92,15 +92,15 @@ void test_rightRotate_with_5_elements(void){
 	setNode(&node10,&node5,&node15,'b');
 	setNode(&node20,&node10,&node25,'b');
 	Node *root = &node20;
-	
+
 	rightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node10);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node20.left,&node15);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node5.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -123,13 +123,13 @@ void test_leftRotate_with_3_elements(void){
 	setNode(&node5,NULL,&node10,'b');
 	setNode(&node1,NULL,&node5,'b');
 	Node *root = &node1;
-	
+
 	leftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node5);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,&node10);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
@@ -139,7 +139,7 @@ void test_leftRotate_with_3_elements(void){
  *     5             10
  *   /  \           /  \
  *  1		10    =>   5   15
- *	     \        / 
+ *	     \        /
  *        15     1
  */
 void test_leftRotate_with_4_elements(void){
@@ -148,15 +148,15 @@ void test_leftRotate_with_4_elements(void){
 	setNode(&node10,NULL,&node15,'b');
 	setNode(&node5,&node1,&node10,'b');
 	Node *root = &node5;
-	
+
 	leftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node10);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node15);
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -165,9 +165,9 @@ void test_leftRotate_with_4_elements(void){
 /**
  *      10               20
  *     /  \             /  \
- *    5	  20     =>   10   25 
- *	      / \        /  \	
- *      15   25     5   15 
+ *    5	  20     =>   10   25
+ *	      / \        /  \
+ *      15   25     5   15
  */
 void test_leftRotate_with_5_elements(void){
 	setNode(&node5,NULL,NULL,'b');
@@ -176,15 +176,15 @@ void test_leftRotate_with_5_elements(void){
 	setNode(&node20,&node15,&node25,'b');
 	setNode(&node10,&node5,&node20,'b');
 	Node *root = &node10;
-	
+
 	leftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node20);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node20.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node15);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node5.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -208,13 +208,13 @@ void test_leftRightRotate_with_3_elements(void){
 	setNode(&node10,NULL,&node15,'b');
 	setNode(&node20,&node10,NULL,'b');
 	Node *root = &node20;
-	
+
 	leftRightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
@@ -235,15 +235,15 @@ void test_leftRightRotate_with_4_elements(void){
 	setNode(&node10,&node5,&node15,'b');
 	setNode(&node20,&node10,NULL,'b');
 	Node *root = &node20;
-	
+
 	leftRightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,NULL);
-  
+
   TEST_ASSERT_EQUAL_PTR(node5.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
@@ -266,17 +266,17 @@ void test_leftRightRotate_with_6_elements(void){
 	setNode(&node5,&node1,&node10,'b');
 	setNode(&node20,&node5,&node25,'b');
 	Node *root = &node20;
-	
+
 	leftRightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node10);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
   TEST_ASSERT_EQUAL_PTR(node20.left,&node15);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -301,17 +301,17 @@ void test_leftRightRotate_with_6_elements_case2(void){
 	setNode(&node5,&node1,&node15,'b');
 	setNode(&node20,&node5,&node25,'b');
 	Node *root = &node20;
-	
+
 	leftRightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,&node10);
   TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
@@ -335,13 +335,13 @@ void test_rightLeftRotate_with_3_elements(void){
 	setNode(&node20,&node15,NULL,'b');
 	setNode(&node10,NULL,&node20,'b');
 	Node *root = &node10;
-	
+
 	rightLeftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
@@ -362,15 +362,15 @@ void test_rightLeftRotate_with_4_elements(void){
 	setNode(&node20,&node15,&node25,'b');
 	setNode(&node10,NULL,&node20,'b');
 	Node *root = &node10;
-	
+
 	rightLeftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
   TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
-  
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node10.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node25.left,NULL);
@@ -393,17 +393,17 @@ void test_rightLeftRotate_with_6_elements(void){
 	setNode(&node20,&node15,&node25,'b');
 	setNode(&node10,&node1,&node20,'b');
 	Node *root = &node10;
-	
+
 	rightLeftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node15);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node15.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
   TEST_ASSERT_EQUAL_PTR(node10.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node5);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node5.left,NULL);
@@ -428,17 +428,17 @@ void test_rightLeftRotate_with_6_elements_case2(void){
 	setNode(&node20,&node10,&node25,'b');
 	setNode(&node5,&node1,&node20,'b');
 	Node *root = &node5;
-	
+
 	rightLeftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node10);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
 	TEST_ASSERT_EQUAL_PTR(node10.right,&node20);
 	TEST_ASSERT_EQUAL_PTR(node5.left,&node1);
 	TEST_ASSERT_EQUAL_PTR(node5.right,NULL);
   TEST_ASSERT_EQUAL_PTR(node20.left,&node15);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node25);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -457,7 +457,7 @@ void test_rightLeftRotate_with_6_elements_case2(void){
  *    5   25   45          5   15  30   40
  *   /    / \             /      \        \
  *  1   15   30          1       20        45
- *       \  
+ *       \
  *        20
  */
 void test_leftRightRotate_for_FINAL_case(void){
@@ -472,10 +472,10 @@ void test_leftRightRotate_for_FINAL_case(void){
 	setNode(&node10,&node5,&node25,'b');
 	setNode(&node35,&node10,&node40,'b');
 	Node *root = &node35;
-	
+
 	leftRightRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node25);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node25.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node25.right,&node35);
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
@@ -488,7 +488,7 @@ void test_leftRightRotate_for_FINAL_case(void){
 	TEST_ASSERT_EQUAL_PTR(node15.right,&node20);
   TEST_ASSERT_EQUAL_PTR(node40.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node40.right,&node45);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node20.left,NULL);
@@ -507,7 +507,7 @@ void test_leftRightRotate_for_FINAL_case(void){
  *    1   20   40           5   15  30  40
  *       /  \   \          /       /      \
  *      15  30   45       1      25       45
- *         /  
+ *         /
  *       25
  */
 void test_rightLeftRotate_for_FINAL_case(void){
@@ -522,10 +522,10 @@ void test_rightLeftRotate_for_FINAL_case(void){
 	setNode(&node35,&node20,&node40,'b');
 	setNode(&node10,&node5,&node35,'b');
 	Node *root = &node10;
-	
+
 	rightLeftRotate(&root);
 	TEST_ASSERT_EQUAL_PTR(root,&node20);
-	
+
 	TEST_ASSERT_EQUAL_PTR(node20.left,&node10);
 	TEST_ASSERT_EQUAL_PTR(node20.right,&node35);
 	TEST_ASSERT_EQUAL_PTR(node10.left,&node5);
@@ -538,7 +538,7 @@ void test_rightLeftRotate_for_FINAL_case(void){
 	TEST_ASSERT_EQUAL_PTR(node30.right,NULL);
   TEST_ASSERT_EQUAL_PTR(node40.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node40.right,&node45);
-  
+
   TEST_ASSERT_EQUAL_PTR(node1.left,NULL);
 	TEST_ASSERT_EQUAL_PTR(node1.right,NULL);
 	TEST_ASSERT_EQUAL_PTR(node15.left,NULL);
@@ -562,7 +562,7 @@ void changeRootByRef(Node **nodePtr, Node *newNode){
 void xtest_chgRootbyVal(){
 	Node *root;
 	root = &node10;
-	
+
 	printf("root node is %d with address %x\n",root->data,root);
 	changeRootByVal(root , &node5);
 	printf("root node is %d with address %x\n\n=====",root->data,root);
@@ -570,7 +570,7 @@ void xtest_chgRootbyVal(){
 void xtest_chgRootbyRef(){
 	Node *root;
 	root = &node10;
-	
+
 	printf("root node is %d with address %x\n",root->data,root);
 	changeRootByRef(&root , &node5);
 	printf("root node is %d with address %x\n",root->data,root);
