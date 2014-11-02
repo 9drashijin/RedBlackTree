@@ -34,7 +34,7 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
     _addRedBlackTree(&root->right,newNode);
   }
   else Throw(ERROR_EQUAL_NODE);
-  
+
   if(root->left != NULL && root->left->left != NULL && root->right == NULL){
     if((root->left->color == 'r') && (root->right == NULL) && (root->left->left->color == 'r')){
       printf("Right");
@@ -63,8 +63,61 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
       (* rootPtr)->left->color = 'r';
     }
   }
-  
-  // else ;;
+
+  else ;;
 }
 
+Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
+  Node *node = _delRedBlackTree(rootPtr,nodeToRemove);
+  if((*rootPtr) != NULL){
+  (*rootPtr)->color = 'b';}
+  return node;
+}
 
+Node *_delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
+  Node *node;
+  Node *root = (*rootPtr);
+
+  if(*rootPtr == NULL || nodeToRemove == NULL) Throw(ERROR_NO_NODE);
+  else{
+    if(nodeToRemove->data == root->data){
+      *rootPtr = NULL;
+      return node;
+    }
+    else{
+      if(nodeToRemove->data < root->data){
+        node = _delRedBlackTree(&root->left,nodeToRemove);
+      }
+      else if(nodeToRemove->data > root->data){
+        node = _delRedBlackTree(&root->right,nodeToRemove);
+      }
+    }
+  if(root->left != NULL && root->left->left != NULL && root->right == NULL){
+    if((root->left->left != NULL) && (root->left->right != NULL)){
+      printf("RightDel");
+      rightRotate(rootPtr);
+      (* rootPtr)->right->left->color = 'r';
+    }
+  }
+  else if(root->right != NULL && root->right->right != NULL && root->left == NULL){
+    if((root->right->left != NULL) && (root->right->right != NULL)){
+      printf("leftDel");
+      leftRotate(rootPtr);
+      (* rootPtr)->left->right->color = 'r';
+    }
+  }
+  if(root->right != NULL && root->left == NULL){
+    if(root->right->color == 'b'){
+      (* rootPtr)->color = 'b';
+      (* rootPtr)->right->color = 'r';
+    }
+  }
+  else if(root->right == NULL && root->left != NULL){
+    if(root->left->color == 'b'){
+      (* rootPtr)->color = 'b';
+      (* rootPtr)->left->color = 'r';
+    }
+  }
+  return node;
+  }
+}

@@ -22,8 +22,7 @@ void setUp(void){
 	resetNode(&node40, 40);
 	resetNode(&node45, 45);
 }
-void tearDown(void){
-}
+void tearDown(void){}
 
 /**
  *      root           root
