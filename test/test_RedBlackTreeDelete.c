@@ -425,3 +425,321 @@ void test_delRedBlackTree_delete_35_from_tree_should_not_rotate_and_flip_colour_
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node15);
   TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node25);
 }
+//////////
+// Left //
+//////////
+/**
+ *      root           root
+ *       |    rmv 5    |
+ *       V   ------->   V
+ *      10b            10b
+ *     /   \              \             20b
+ *   5b    20b            20b     =>   /   \    left rotate
+ *           \              \        10b   30b
+ *           30r            30r
+ */
+void test_delRedBlackTreeParentSibling_delete_5_from_tree_left_case1(void){
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node30,NULL,NULL,'r');
+  setNode(&node20,NULL,&node30,'b');
+  setNode(&node10,&node5,&node20,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node20);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node30, 'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+}
+/**
+ *      root           root
+ *       |    rmv 5     |
+ *       V   ------->   V
+ *      10b            10b
+ *     /   \              \             20b
+ *   5b    30b            30b     =>   /   \    rightleft rotate
+ *         /              /          10b   30b
+ *       20r           20r
+ */
+void test_delRedBlackTreeParentSibling_delete_5_from_tree_left_case1b(void){
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node20,NULL,NULL,'r');
+  setNode(&node30,&node20,NULL,'b');
+  setNode(&node10,&node5,&node30,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node20);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node30, 'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+}
+/**
+ *      root           root
+ *       |    rmv 5     |
+ *       V   ------->   V
+ *      10b            10b    =>    10d
+ *     /  \               \           \
+ *    5b  15b             15b         15r
+ */
+void test_delRedBlackTreeParentSibling_delete_5_from_tree_left_case2(void){
+  setNode(&node15,NULL,NULL,'b');
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node10,&node5,&node15,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = _delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node15, 'd', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node15);
+}
+/**
+ *      root           root
+ *       |    rmv 5     |
+ *       V   ------->   V
+ *      10r            10r    =>    10b
+ *     /  \               \           \
+ *    5b  15b             15b         15r
+ */
+void test_delRedBlackTreeParentSibling_delete_5_from_tree_left_case2b(void){
+  setNode(&node15,NULL,NULL,'b');
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node10,&node5,&node15,'r');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node15, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node15);
+}
+/**
+ *      root           root
+ *       |    rmv 5     |
+ *       V   ------->   V
+ *      10b            10b                20b
+ *     /   \          /   \              /  \
+ *    5b   20r            20r     =>  10b    30b   left rotate
+ *        /  \           /  \           \
+ *     15b   30b      15b    30b        15r
+ */
+void test_delRedBlackTreeParentSibling_delete_5_from_tree_left_case3(void){
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node15,NULL,NULL,'b');
+  setNode(&node30,NULL,NULL,'b');
+  setNode(&node20,&node15,&node30,'r');
+  setNode(&node10,&node5,&node20,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node20);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node30, 'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, &node15, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node15);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+}
+/**
+ *      root
+ *       |    rmv 5
+ *       V   ------->
+ *      10b
+ *     /   \
+ *   5b    25r
+ *        /  \
+ *     15b   30b
+ *       \
+ *       20r
+ */
+void xtest_delRedBlackTreeParentSibling_delete_5_from_tree_left_case3b(void){
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node20,NULL,NULL,'r');
+  setNode(&node30,NULL,NULL,'b');
+  setNode(&node15,NULL,&node20,'b');
+  setNode(&node25,&node15,&node30,'r');
+  setNode(&node10,&node5,&node25,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node5);
+  TEST_ASSERT_EQUAL_PTR(&node5, ReturnedRoot);
+  // TEST_ASSERT_EQUAL_PTR(root, &node25);
+  // TEST_ASSERT_EQUAL_NODE(&node10, &node30, 'b', &node25);
+  // TEST_ASSERT_EQUAL_NODE(NULL, &node15, 'r', &node10);
+  // TEST_ASSERT_EQUAL_NODE(NULL, &node20, 'b', &node15);
+  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+  // TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node20); //x
+
+  TEST_ASSERT_EQUAL_PTR(root, &node25);
+  TEST_ASSERT_EQUAL_NODE(&node15, &node30, 'b', &node25);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node20, 'r', &node15);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node30);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+}
+///////////
+// Right //
+///////////
+/**
+ *      root            root
+ *       |    rmv 30     |
+ *       V   ------->    V
+ *      20b             20b
+ *     /   \            /            10b
+ *   10b    30b       10b     =>    /   \
+ *   /               /            5b    20b
+ * 5r               5r
+ *
+ */
+void test_delRedBlackTreeParentSibling_delete_30_from_tree_right_case1(void){
+  setNode(&node5,NULL,NULL,'r');
+  setNode(&node30,NULL,NULL,'b');
+  setNode(&node10,&node5,NULL,'b');
+  setNode(&node20,&node10,&node30,'b');
+	Node *root = &node20;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node30);
+  TEST_ASSERT_EQUAL_PTR(&node30, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node20, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+}
+/**
+ *      root            root
+ *       |    rmv 30     |
+ *       V   ------->    V
+ *      20b             20b
+ *     /   \            /            15b
+ *   10b   30b       10b     =>     /   \
+ *     \               \          10b   20b
+ *     15r             15r
+ *
+ */
+void test_delRedBlackTreeParentSibling_delete_30_from_tree_right_case1b(void){
+  setNode(&node15,NULL,NULL,'r');
+  setNode(&node30,NULL,NULL,'b');
+  setNode(&node10,NULL,&node15,'b');
+  setNode(&node20,&node10,&node30,'b');
+	Node *root = &node20;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node30);
+  TEST_ASSERT_EQUAL_PTR(&node30, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node15);
+  TEST_ASSERT_EQUAL_NODE(&node10, &node20, 'b', &node15);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+}
+/**
+ *      root           root
+ *       |    rmv 15    |
+ *       V   ------->   V
+ *      10b            10b    =>    10d
+ *     /  \           /             /
+ *    5b  15b        5b           5r
+ */
+void test_delRedBlackTreeParentSibling_delete_15_from_tree_right_case2(void){
+  setNode(&node15,NULL,NULL,'b');
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node10,&node5,&node15,'b');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = _delRedBlackTreeParentSibling(&root, &node15);
+  TEST_ASSERT_EQUAL_PTR(&node15, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node5, NULL, 'd', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+}
+/**
+ *      root           root
+ *       |    rmv 15    |
+ *       V   ------->   V
+ *      10r            10r    =>    10b
+ *     /  \           /             /
+ *    5b  15b        5b           5r
+ */
+void test_delRedBlackTreeParentSibling_delete_15_from_tree_right_case2b(void){
+  setNode(&node15,NULL,NULL,'b');
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node10,&node5,&node15,'r');
+	Node *root = &node10;
+  Node *ReturnedRoot;
+
+  ReturnedRoot = delRedBlackTreeParentSibling(&root, &node15);
+  TEST_ASSERT_EQUAL_PTR(&node15, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node10);
+  TEST_ASSERT_EQUAL_NODE(&node5, NULL,'b', &node10);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node5);
+}
+/**
+ *       root           root
+ *        |    rmv 30    |
+ *        V   ------->   V
+ *       20b            20b             15b
+ *      /   \          /   \           /  \
+ *    15r   30b      15r        =>   5b    20b   right rotate
+ *   /  \           /  \                  /
+ * 5b   10b      5b    10b              10r
+ */
+void test_delRedBlackTreeParentSibling_delete_30_from_tree_right_case3(void){
+  setNode(&node5,NULL,NULL,'b');
+  setNode(&node10,NULL,NULL,'b');
+  setNode(&node30,NULL,NULL,'b');
+  setNode(&node15,&node5,&node10,'r');
+  setNode(&node20,&node15,&node30,'b');
+	Node *root = &node20;
+	Node *ReturnedRoot;
+
+  ReturnedRoot =  delRedBlackTreeParentSibling(&root, &node30);
+  TEST_ASSERT_EQUAL_PTR(&node30, ReturnedRoot);
+  TEST_ASSERT_EQUAL_PTR(root, &node15);
+  TEST_ASSERT_EQUAL_NODE(&node5, &node20, 'b', &node15);
+  TEST_ASSERT_EQUAL_NODE(&node10,NULL,'b', &node20);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node5);
+  TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'r', &node10);
+}
+/**
+*       root
+*        |
+*        v
+*       20b
+*     /    \
+*    5r    25b
+*  /   \
+* 1b   15b
+*      /
+*    10r
+*/
+void xtest_delRedBlackTree_case_3b_removeRight_25(void){
+
+	setNode(&node1, NULL, NULL, 'b');
+	setNode(&node10, NULL, NULL, 'r');
+	setNode(&node25, NULL, NULL, 'b');
+	setNode(&node15, &node10, NULL, 'b');
+	setNode(&node5, &node1, &node15, 'r');
+	setNode(&node20, &node5, &node25, 'b');
+	Node *root = &node20;
+  Node *ReturnedRoot;
+
+	ReturnedRoot = delRedBlackTreeParentSibling(&root, &node25);
+
+	TEST_ASSERT_EQUAL_PTR(&node25, ReturnedRoot);
+	TEST_ASSERT_EQUAL_PTR(&node5, root);
+	TEST_ASSERT_EQUAL_NODE(&node1, &node15, 'b', &node20);
+	TEST_ASSERT_EQUAL_NODE(&node10, &node20, 'r', &node15);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node1);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node10);
+	TEST_ASSERT_EQUAL_NODE(NULL, NULL, 'b', &node20);
+
+}
