@@ -12,16 +12,24 @@ Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove);
 Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove);
 Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove);
 
-void rmvCase1Left(Node **rootPtr);
-void rmvCase2Left(Node **rootPtr);
-void rmvCase3Left(Node **rootPtr);
+Node *removeRedBlackTree(Node **rootPtr, Node *nodeToRemove);
+Node *removeNextLargerSuccessor(Node **parentPtr);
 
-void rmvCase1Right(Node **rootPtr);
-void rmvCase2Right(Node **rootPtr);
-void rmvCase3Right(Node **rootPtr);
+Node *restructureTree(Node **rootPtr, Node *removedNode);
+
+void rmvCase1Left(Node **rootPtr, Node *removedNode);
+void rmvCase2Left(Node **rootPtr, Node *removedNode);
+void rmvCase3Left(Node **rootPtr, Node *removedNode);
+
+void rmvCase1Right(Node **rootPtr, Node *removedNode);
+void rmvCase2Right(Node **rootPtr, Node *removedNode);
+void rmvCase3Right(Node **rootPtr, Node *removedNode);
 
 int isBlackNode(Node *node);
 int isRedNode(Node *node);
-int isDoubleBlackNode(Node *node);
+int isDoubleBlackNode(Node *node, Node *removedNode); 
+// check if removed is 'd'? if Red return 0, if black return 1;
+//NULL > possible 'd', if removed node == 'b'> then return 1
+//                     else if removed node == 'r'> then return 0;
 
 #endif // RedBlackTree_H

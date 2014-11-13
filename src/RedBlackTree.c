@@ -148,141 +148,175 @@ Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
         node = _delRedBlackTreeParentSibling(&root->right,nodeToRemove);
       }
     }
-    /////////// LEFT side /////////////
-    if(root->left == NULL || isDoubleBlackNode(root->left)){
-      if(isBlackNode(root->right)){
-        // The sibling is black and it has a red nephew
-        if(isRedNode((root->right->left)) || isRedNode((root->right->right))){
-          rmvCase1Left(rootPtr);
-        }
-        // The sibling is black and both nephew are black
-        else if(isBlackNode(root->right->right) && isBlackNode(root->right->left)){
-          rmvCase2Left(rootPtr);
-        }
-      }
-      // The sibling is red
-      else if (isRedNode(root->right)){
-      // rmvCase3Left(rootPtr);
-      printf("Left Case3");
-      leftRotate(rootPtr);
-      (* rootPtr)->color = 'b';
-      (* rootPtr)->left->color = 'b';
-      (* rootPtr)->left->right->color = 'r';
-      }
-    }
-    /////////// RIGHT side /////////////
-    else if(root->right == NULL || isDoubleBlackNode(root->right)){
-      if(isBlackNode(root->left)){
-        // The sibling is black and it has a red nephew
-        if(isRedNode((root->left->left)) || isRedNode((root->left->right))){
-          rmvCase1Right(rootPtr);
-        }
-        // The sibling is black and both nephew are black
-        else if(isBlackNode(root->left->right) && isBlackNode(root->left->left)){
-          rmvCase2Right(rootPtr);
-        }
-      }
-      // The sibling is red
-      else if(isRedNode(root->left)){
-      // rmvCase3Right(rootPtr);
-      printf("Right Case3");
-      rightRotate(rootPtr);
-      (* rootPtr)->color = 'b';
-      (* rootPtr)->right->color = 'b';
-      (* rootPtr)->right->left->color = 'r';
-      }
-    }
+    restructureTree(rootPtr,nodeToRemove);
   return node;
   }
 }
-void rmvCase1Left(Node **rootPtr){
+void rmvCase1Left(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isRedNode(root->right->right) && isBlackNode(root->right->left)){
     leftRotate(rootPtr);
-    printf("Left Case1");
+    printf("Left Case1-");
   }
   else if(isRedNode(root->right->left) && isBlackNode(root->right->right)){
     rightLeftRotate(rootPtr);
-    printf("Left Case1b");
+    printf("Left Case1b-");
   }
   (* rootPtr)->right->color = 'b';
   (* rootPtr)->left->color = 'b';
+  (* rootPtr)->color = 'r';
 }
-void rmvCase2Left(Node **rootPtr){
+void rmvCase2Left(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isBlackNode(root)){
     (* rootPtr)->color = 'd';
-    printf("Left Case2");
+    printf("Left Case2-");
     }
   else if(isRedNode(root)){
     (* rootPtr)->color = 'b';
-    printf("Left Case2b");
+    printf("Left Case2b-");
     }
   if(root->right !=NULL){
     (* rootPtr)->right->color = 'r';
   }
+  if(root->left !=NULL){
+    (* rootPtr)->left->color = 'b';
+  }
 }
-void rmvCase3Left(Node **rootPtr){
+void rmvCase3Left(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   leftRotate(rootPtr);
   (* rootPtr)->color = 'b';
   (* rootPtr)->left->color = 'r';
-  printf("Left Case3");
+  printf("Left Case3-");
   
-  if(isDoubleBlackNode(root->left->left) && isBlackNode(root->left->right)){
-		if(isRedNode(root->left->right->left) || isRedNode(root->left->right->right)){
-			rmvCase1Left(&root->left);
+  if(isDoubleBlackNode((*rootPtr)->left->left,removedNode) && isBlackNode(((*rootPtr)->left->right))){
+		if(isRedNode((*rootPtr)->left->right->left) || isRedNode((*rootPtr)->left->right->right)){
+			rmvCase1Left(&(*rootPtr)->left,removedNode);
       }
-    else if(isBlackNode(root->left->right->left) && isBlackNode(root->left->right->right)){
-			rmvCase2Left(&root->left);
+    else if(isBlackNode((*rootPtr)->left->right->left) && isBlackNode((*rootPtr)->left->right->right)){
+			rmvCase2Left(&(*rootPtr)->left,removedNode);
       }
-    else ;;
+    else ;
 	}
-  else ;;
+  else;
+
 }
-void rmvCase1Right(Node **rootPtr){
+void rmvCase1Right(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isRedNode(root->left->left) && isBlackNode(root->left->right)){
     rightRotate(rootPtr);
-    printf("Right Case1");
+    printf("Right Case1-");
   }
   else if(isRedNode(root->left->right) && isBlackNode(root->left->left)){
     leftRightRotate(rootPtr);
-    printf("Right Case1b");
+    printf("Right Case1b-");
   }
   (* rootPtr)->right->color = 'b';
   (* rootPtr)->left->color = 'b';
+  (* rootPtr)->color = 'r';
 }
-void rmvCase2Right(Node **rootPtr){
+void rmvCase2Right(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isBlackNode(root)){
     (* rootPtr)->color = 'd';
-    printf("Right Case2");
+    printf("Right Case2-");
     }
   else if(isRedNode(root)){
     (* rootPtr)->color = 'b';
-    printf("Right Case2b");
+    printf("Right Case2b-");
     }
   if(root->left !=NULL){
     (* rootPtr)->left->color = 'r';
   }
+  if(root->right !=NULL){
+    (* rootPtr)->right->color = 'b';
+  }
 }
-void rmvCase3Right(Node **rootPtr){
+void rmvCase3Right(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   rightRotate(rootPtr);
   (* rootPtr)->color = 'b';
   (* rootPtr)->right->color = 'r';
-  printf("Right Case3");
+  printf("Right Case3-");
 
-  if(isDoubleBlackNode(root->right->right) && isBlackNode(root->right->left)){
-		if(isBlackNode(root->right->left->left) && isBlackNode(root->right->left->right)){
-			rmvCase2Right(&root->right);
+  if(isDoubleBlackNode((*rootPtr)->right->right,removedNode) && isBlackNode((*rootPtr)->right->left)){
+		if(isBlackNode((*rootPtr)->right->left->left) && isBlackNode((*rootPtr)->right->left->right)){
+			rmvCase2Right(&(*rootPtr)->right,removedNode);
       }
-    else if(isRedNode(root->right->left->left) || isRedNode(root->right->left->right)){
-			rmvCase1Right(&root->right);
+    else if(isRedNode((*rootPtr)->right->left->left) || isRedNode((*rootPtr)->right->left->right)){
+			rmvCase1Right(&(*rootPtr)->right,removedNode);
       }
 	}
 }
+
+Node *removeRedBlackTree(Node **rootPtr, Node *nodeToRemove){
+  Node *node = delRedBlackTreeParentSibling(rootPtr,nodeToRemove);
+  return node;
+}
+
+Node *removeNextLargerSuccessor(Node **parentPtr){
+  Node *removedNode, *parent = (*parentPtr), *tempNode;
+
+  if(parent->left != NULL){
+    removedNode = removeNextLargerSuccessor(&parent->left);
+  }
+  else if(parent->left == NULL && parent->right == NULL){
+    removedNode = *parentPtr;
+    *parentPtr = NULL;
+    return removedNode;
+  }
+  else if(parent->right != NULL){
+    printf("gotReplacer");
+    tempNode = (*parentPtr)->right;
+    removedNode = *parentPtr;
+    *parentPtr = tempNode;
+    (*parentPtr)->color = 'b';
+    return removedNode;
+  }
+    restructureTree(parentPtr,removedNode);
+  return removedNode;
+}
+
+Node *restructureTree(Node **parentPtr, Node *removedNode){
+  Node *parent = (*parentPtr);
+  /////////// LEFT side /////////////
+  if(isDoubleBlackNode(parent->left,removedNode)){
+      if(isBlackNode(parent->right)){
+        // The sibling is black and it has a red nephew
+        if(isRedNode((parent->right->left)) || isRedNode((parent->right->right))){
+          rmvCase1Left(parentPtr,removedNode);
+        }
+        // The sibling is black and both nephew are black
+        else if(isBlackNode(parent->right->right) && isBlackNode(parent->right->left)){
+          rmvCase2Left(parentPtr,removedNode);
+        }
+      }
+      // The sibling is red
+      else if (isRedNode(parent->right)){
+        rmvCase3Left(parentPtr,removedNode);
+      }
+    }
+    /////////// RIGHT side /////////////
+    else if(isDoubleBlackNode(parent->right,removedNode)){
+      if(isBlackNode(parent->left)){
+        // The sibling is black and it has a red nephew
+        if(isRedNode((parent->left->left)) || isRedNode((parent->left->right))){
+          rmvCase1Right(parentPtr,removedNode);
+        }
+        // The sibling is black and both nephew are black
+        else if(isBlackNode(parent->left->right) && isBlackNode(parent->left->left)){
+          rmvCase2Right(parentPtr,removedNode);
+        }
+      }
+      // The sibling is red
+      else if(isRedNode(parent->left)){
+        rmvCase3Right(parentPtr,removedNode);
+      }
+    }
+    return removedNode;
+}
+
 
 int isBlackNode(Node *node){
   if(node == NULL){return 1;}
@@ -293,8 +327,22 @@ int isRedNode(Node *node){
   if(node != NULL && node->color == 'r'){return 1;}
   else {return 0;}
 }
-int isDoubleBlackNode(Node *node){
-  if (node == NULL){return 1;}
-  else if(node != NULL && node->color == 'd'){return 1;}
+int isDoubleBlackNode(Node *node , Node *removedNode){
+  if (node == NULL){
+    if(removedNode->color == 'b'){return 1;}
+    else if(removedNode->color == 'r'){return 0;}
+  }
+  if(node->color == 'r'){
+    if(removedNode->color == 'r'){return 0;}
+    else if(removedNode->color == 'b'){return 0;}
+  }
+  if(node->color == 'b'){
+    if(removedNode->color == 'r'){return 0;}
+    else if(removedNode->color == 'b'){return 0;}
+  }
+  if(node->color == 'd'){
+    if(removedNode->color == 'r'){return 1;}
+    else if(removedNode->color == 'b'){return 1;}
+  }
   else {return 0;}
 }
