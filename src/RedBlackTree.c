@@ -11,7 +11,7 @@ void addRedBlackTree(Node **rootPtr, Node *newNode){
   _addRedBlackTree(rootPtr,newNode);
   (*rootPtr)->color = 'b';
 }
-
+// Red Black Tree Adding 
 void _addRedBlackTree(Node **rootPtr, Node *newNode){
   Node *root = (* rootPtr);
 
@@ -66,15 +66,15 @@ void _addRedBlackTree(Node **rootPtr, Node *newNode){
 
   else ;;
 }
-
-Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
-  Node *node = _delRedBlackTree(rootPtr,nodeToRemove);
+// Normal Red Black Tree Delete (ignored)
+Node *delRedBlackTreeNormal(Node **rootPtr, Node *nodeToRemove){
+  Node *node = _delRedBlackTreeNormal(rootPtr,nodeToRemove);
   if((*rootPtr) != NULL){
   (*rootPtr)->color = 'b';}
   return node;
 }
 
-Node *_delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
+Node *_delRedBlackTreeNormal(Node **rootPtr, Node *nodeToRemove){
   Node *node;
   Node *root = (*rootPtr);
 
@@ -87,10 +87,10 @@ Node *_delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
     }
     else{
       if(nodeToRemove->data < root->data){
-        node = _delRedBlackTree(&root->left,nodeToRemove);
+        node = _delRedBlackTreeNormal(&root->left,nodeToRemove);
       }
       else if(nodeToRemove->data > root->data){
-        node = _delRedBlackTree(&root->right,nodeToRemove);
+        node = _delRedBlackTreeNormal(&root->right,nodeToRemove);
       }
     }
   if(root->left != NULL && root->left->left != NULL && root->right == NULL){
@@ -122,7 +122,29 @@ Node *_delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
   return node;
   }
 }
+// Node *removeNextLargerSuccessor(Node **parentPtr){
+  // Node *removedNode, *parent = (*parentPtr), *tempNode;
 
+  // if(parent->left != NULL){
+    // removedNode = removeNextLargerSuccessor(&parent->left);
+  // }
+  // else if(parent->left == NULL && parent->right == NULL){
+    // removedNode = *parentPtr;
+    // *parentPtr = NULL;
+    // return removedNode;
+  // }
+  // else if(parent->right != NULL){
+    // printf("gotReplacer");
+    // tempNode = (*parentPtr)->right;
+    // removedNode = *parentPtr;
+    // *parentPtr = tempNode;
+    // (*parentPtr)->color = 'b';
+    // return removedNode;
+  // }
+    // restructureTree(parentPtr,removedNode);
+  // return removedNode;
+// }
+// New Red Black Tree Delete (current)
 Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
   Node *node = _delRedBlackTreeParentSibling(rootPtr,nodeToRemove);
   if((*rootPtr) != NULL){
@@ -130,15 +152,28 @@ Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
   return node;
 }
 Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
-  Node *node;
+  Node *node, *tempNode;
   Node *root = (*rootPtr);
 
   if(*rootPtr == NULL || nodeToRemove == NULL) Throw(ERROR_NO_NODE);
   else{
     if(nodeToRemove->data == root->data){
-      node = *rootPtr;
-      *rootPtr = NULL;
-      return node;
+      
+      if(root->right){
+        printf("IN HERE");
+        tempNode = root->left;
+        node = removeNextLargerSuccessor(&root->right);
+        printf("Node: %d\n",(node)->data);
+        *rootPtr = node;
+        (* rootPtr)->left = tempNode;
+        // restructureTree(rootPtr,nodeToRemove);
+        return node;
+      }
+      else if(!root->right && !root->left){
+        node = *rootPtr;
+        *rootPtr = NULL;
+        return node;
+      }
     }
     else{
       if(nodeToRemove->data < root->data){
@@ -152,6 +187,8 @@ Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
   return node;
   }
 }
+
+// 3 cases for the left side
 void rmvCase1Left(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isRedNode(root->right->right) && isBlackNode(root->right->left)){
@@ -197,11 +234,11 @@ void rmvCase3Left(Node **rootPtr, Node *removedNode){
     else if(isBlackNode((*rootPtr)->left->right->left) && isBlackNode((*rootPtr)->left->right->right)){
 			rmvCase2Left(&(*rootPtr)->left,removedNode);
       }
-    else ;
+    else;;
 	}
-  else;
-
+  else;;
 }
+// 3 cases for the right side
 void rmvCase1Right(Node **rootPtr, Node *removedNode){
   Node *root = (*rootPtr);
   if(isRedNode(root->left->left) && isBlackNode(root->left->right)){
@@ -247,23 +284,28 @@ void rmvCase3Right(Node **rootPtr, Node *removedNode){
     else if(isRedNode((*rootPtr)->right->left->left) || isRedNode((*rootPtr)->right->left->right)){
 			rmvCase1Right(&(*rootPtr)->right,removedNode);
       }
+    else;;
 	}
+  else;;
 }
-
-Node *removeRedBlackTree(Node **rootPtr, Node *nodeToRemove){
+// Rename Delete Red Black Tree to Remove
+Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove){
   Node *node = delRedBlackTreeParentSibling(rootPtr,nodeToRemove);
   return node;
 }
 
+// cases for Remove Next Larger Successor
 Node *removeNextLargerSuccessor(Node **parentPtr){
   Node *removedNode, *parent = (*parentPtr), *tempNode;
 
   if(parent->left != NULL){
     removedNode = removeNextLargerSuccessor(&parent->left);
+    printf("......");
   }
   else if(parent->left == NULL && parent->right == NULL){
     removedNode = *parentPtr;
     *parentPtr = NULL;
+    printf("zxc");
     return removedNode;
   }
   else if(parent->right != NULL){
@@ -278,6 +320,7 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
   return removedNode;
 }
 
+// Red Black Tree for restructuring and balancing
 Node *restructureTree(Node **parentPtr, Node *removedNode){
   Node *parent = (*parentPtr);
   /////////// LEFT side /////////////
@@ -317,16 +360,18 @@ Node *restructureTree(Node **parentPtr, Node *removedNode){
     return removedNode;
 }
 
-
+//Check for black node in RBT
 int isBlackNode(Node *node){
   if(node == NULL){return 1;}
   else if(node != NULL && node->color == 'b'){return 1;}
   else {return 0;}
 }
+//Check for red node in RBT
 int isRedNode(Node *node){
   if(node != NULL && node->color == 'r'){return 1;}
   else {return 0;}
 }
+//Check for double black node in RBT
 int isDoubleBlackNode(Node *node , Node *removedNode){
   if (node == NULL){
     if(removedNode->color == 'b'){return 1;}

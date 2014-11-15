@@ -6,13 +6,13 @@
 void _addRedBlackTree(Node **rootPtr, Node *newNode);
 void addRedBlackTree(Node **rootPtr, Node *newNode);
 
-Node *_delRedBlackTree(Node **rootPtr, Node *nodeToRemove);
-Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove);
+Node *delRedBlackTreeNormal(Node **rootPtr, Node *nodeToRemove);
+Node *_delRedBlackTreeNormal(Node **rootPtr, Node *nodeToRemove);
 
 Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove);
 Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove);
 
-Node *removeRedBlackTree(Node **rootPtr, Node *nodeToRemove);
+Node *delRedBlackTree(Node **rootPtr, Node *nodeToRemove);
 Node *removeNextLargerSuccessor(Node **parentPtr);
 
 Node *restructureTree(Node **rootPtr, Node *removedNode);
