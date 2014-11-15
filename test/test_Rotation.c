@@ -551,27 +551,27 @@ void test_rightLeftRotate_for_FINAL_case(void){
 
 void changeRootByVal(Node *node, Node *newNode){
 	node = newNode;
-	printf("chgByVal : node = %x \n",node);
+	printf("chgByVal : node = %d \n",node);
 
 }
 void changeRootByRef(Node **nodePtr, Node *newNode){
 	*nodePtr = newNode;
-	printf("chgByRal : node = %x \n",*nodePtr);
+	printf("chgByRal : node = %d \n",*nodePtr);
 
 }
 void xtest_chgRootbyVal(){
 	Node *root;
 	root = &node10;
 
-	printf("root node is %d with address %x\n",root->data,root);
+	printf("root node is %d with address %d\n",root->data,root);
 	changeRootByVal(root , &node5);
-	printf("root node is %d with address %x\n\n=====",root->data,root);
+	printf("root node is %d with address %d\n\n=====",root->data,root);
 }
 void xtest_chgRootbyRef(){
 	Node *root;
 	root = &node10;
 
-	printf("root node is %d with address %x\n",root->data,root);
+	printf("root node is %d with address %d\n",root->data,root);
 	changeRootByRef(&root , &node5);
-	printf("root node is %d with address %x\n",root->data,root);
+	printf("root node is %d with address %d\n",root->data,root);
 }

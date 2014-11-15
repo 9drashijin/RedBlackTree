@@ -122,28 +122,7 @@ Node *_delRedBlackTreeNormal(Node **rootPtr, Node *nodeToRemove){
   return node;
   }
 }
-// Node *removeNextLargerSuccessor(Node **parentPtr){
-  // Node *removedNode, *parent = (*parentPtr), *tempNode;
 
-  // if(parent->left != NULL){
-    // removedNode = removeNextLargerSuccessor(&parent->left);
-  // }
-  // else if(parent->left == NULL && parent->right == NULL){
-    // removedNode = *parentPtr;
-    // *parentPtr = NULL;
-    // return removedNode;
-  // }
-  // else if(parent->right != NULL){
-    // printf("gotReplacer");
-    // tempNode = (*parentPtr)->right;
-    // removedNode = *parentPtr;
-    // *parentPtr = tempNode;
-    // (*parentPtr)->color = 'b';
-    // return removedNode;
-  // }
-    // restructureTree(parentPtr,removedNode);
-  // return removedNode;
-// }
 // New Red Black Tree Delete (current)
 Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
   Node *node = _delRedBlackTreeParentSibling(rootPtr,nodeToRemove);
@@ -152,21 +131,36 @@ Node *delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
   return node;
 }
 Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
-  Node *node, *tempNode;
+  Node *node, *tempNodeLeft, *tempNodeRight;
   Node *root = (*rootPtr);
-
+  char color = (*rootPtr)->color;
+  
   if(*rootPtr == NULL || nodeToRemove == NULL) Throw(ERROR_NO_NODE);
   else{
     if(nodeToRemove->data == root->data){
       
       if(root->right){
-        printf("IN HERE");
-        tempNode = root->left;
+        // printf("IN HERE ");
+        tempNodeLeft = root->left;
+        tempNodeRight = root->right;
         node = removeNextLargerSuccessor(&root->right);
         printf("Node: %d\n",(node)->data);
+        
         *rootPtr = node;
-        (* rootPtr)->left = tempNode;
-        // restructureTree(rootPtr,nodeToRemove);
+        if(root->left){
+          (* rootPtr)->left = tempNodeLeft;
+        }
+        if(root->right){
+          (* rootPtr)->right = tempNodeRight;
+        }
+        (* rootPtr)->color = node->color;
+        restructureTree(rootPtr,node);
+        return node;
+      }
+      else if(root->left){
+        node = (*rootPtr)->left;
+        (* rootPtr) = root->left;
+        (* rootPtr)->color = 'b';
         return node;
       }
       else if(!root->right && !root->left){
@@ -174,6 +168,10 @@ Node *_delRedBlackTreeParentSibling(Node **rootPtr, Node *nodeToRemove){
         *rootPtr = NULL;
         return node;
       }
+      else{
+        *rootPtr = NULL;
+      }
+      return node;
     }
     else{
       if(nodeToRemove->data < root->data){
@@ -300,12 +298,10 @@ Node *removeNextLargerSuccessor(Node **parentPtr){
 
   if(parent->left != NULL){
     removedNode = removeNextLargerSuccessor(&parent->left);
-    printf("......");
   }
   else if(parent->left == NULL && parent->right == NULL){
     removedNode = *parentPtr;
     *parentPtr = NULL;
-    printf("zxc");
     return removedNode;
   }
   else if(parent->right != NULL){
